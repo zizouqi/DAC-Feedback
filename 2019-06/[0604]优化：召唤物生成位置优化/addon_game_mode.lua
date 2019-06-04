@@ -11,8 +11,18 @@ function FindEmptyGridAtUnit(u)
 	end
 
 	--遍历身边的格子
-	for x = -1,1 do
-		for y = -1,1 do
+	local random1 = RandomInt(0, 1)
+	local random2 = 1
+	
+	if random1 == 0 then
+		random1 = -1
+	end
+	if u.team_id == 4 then
+		random2 = -1
+	end
+	
+	for y = 1*random2,-1*random2,-1*random2 do
+		for x = -1*random1,1*random1,random1 do
 			if IsIn8x8(u.x+x,u.y+y) == true and IsEmptyGrid(team_id,u.x+x,u.y+y) == true then
 				debug('FindEmptyGridAtUnit选中x='..(u.x+x)..',y='..(u.y+y))
 				return XY2Vector(u.x+x,u.y+y,team_id)
