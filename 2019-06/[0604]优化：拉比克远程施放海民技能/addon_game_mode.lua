@@ -1,6 +1,6 @@
 elseif GameRules:GetGameModeEntity().ability_behavior_list[a] == 5 then
 	--近身单位目标
-	local unluckydog = FindUnluckyDog190(u)
+	local unluckydog = FindUnluckyDogInRange(u, u:Script_GetAttackRange())
 	if unluckydog ~= nil then
 		local newOrder = {
 	 		UnitIndex = u:entindex(), 
