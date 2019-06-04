@@ -1,5 +1,5 @@
 	--已经有目标
-	if u:GetAttackTarget() ~= nil and u:GetAttackTarget() ~= nil and u:GetAttackTarget():IsNull() == false and u:GetAttackTarget():IsInvisible() == false and u:GetAttackTarget():IsAlive() == true and (u:GetAttackTarget():GetAbsOrigin() - u:GetAbsOrigin()):Length2D() < u:Script_GetAttackRange() + u:GetAttackTarget():GetHullRadius() + u:GetHullRadius() then
+	if u:GetAttackTarget() ~= nil and u:GetAttackTarget() ~= nil and u:GetAttackTarget():IsNull() == false and u:GetAttackTarget():IsInvisible() == false and u:GetAttackTarget():IsAlive() == true and (u:GetAttackTarget():GetAbsOrigin() - u:GetAbsOrigin()):Length2D() < u:Script_GetAttackRange() + u:GetAttackTarget():GetHullRadius() + u:GetHullRadius() and string.find(u:GetUnitName(), 'pve') == nil then
 		-- local newOrder = {
 	 -- 		UnitIndex = u:entindex(), 
 	 -- 		OrderType = DOTA_UNIT_ORDER_ATTACK_TARGET,
@@ -23,7 +23,7 @@
 		if v ~= nil and v:IsNull() == false and v:IsAlive() == true then
 			if v.team_id ~= u.team_id and v:IsInvisible() == false then
 				local d = (v:GetAbsOrigin() - u:GetAbsOrigin()):Length2D()
-				if d < closest_distance and d < attack_range + v:GetHullRadius() + u:GetHullRadius() and v:HasModifier("modifier_winter_wyvern_cold_embrace") ~= true then
+				if d < closest_distance and d < attack_range + v:GetHullRadius() + u:GetHullRadius() and v:HasModifier('modifier_winter_wyvern_cold_embrace') ~= true then
 					closest_enemy = v
 					closest_distance = d
 				end
@@ -45,6 +45,14 @@
                 Queue = 0
             }
             ExecuteOrderFromTable(newOrder)
+        elseif string.find(u:GetUnitName(), 'pve') ~= nil then
+			local newOrder = {
+		 		UnitIndex = u:entindex(), 
+		 		OrderType = DOTA_UNIT_ORDER_ATTACK_TARGET,
+		 		TargetIndex = u.attack_target:entindex(), 
+		 		Queue = 0 
+		 	}
+			ExecuteOrderFromTable(newOrder)
         end
         return 1
     elseif closest_enemy_alt ~= nil then
