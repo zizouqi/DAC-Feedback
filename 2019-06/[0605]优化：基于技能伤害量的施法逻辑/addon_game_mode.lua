@@ -36,9 +36,9 @@ function FindUnluckyDogByAbilityDamage(u,ability)
 		if unit.team_id ~= u.team_id and unit:IsNull() == false and unit:IsAlive() == true then
 			--魔法伤害，引入魔抗系数进行计算
 			if u:FindAbilityByName(ability):GetAbilityDamageType() == 2 then
-				if math.abs(unit:GetHealth() - hp_estimate * (1 - unit:GetBaseMagicalResistanceValue())) < hp_abs then
+				if math.abs(unit:GetHealth() - hp_estimate * (1 - unit:GetMagicalArmorValue())) < hp_abs then
 					unluckydog = unit
-					hp_abs = math.abs(unit:GetHealth() - hp_estimate * (1 - unit:GetBaseMagicalResistanceValue()))
+					hp_abs = math.abs(unit:GetHealth() - hp_estimate * (1 - unit:GetMagicalArmorValue()))
 				end
 			--物理及纯粹伤害
 			else
