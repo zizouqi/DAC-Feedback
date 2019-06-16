@@ -6,7 +6,7 @@ function FindFarthestUnluckyDogAvailablePosition(u)
 				for i=8,1,-1 do
 					if GameRules:GetGameModeEntity().unit[team_id][j..'_'..i] == nil then
 						for _,unit in pairs (GameRules:GetGameModeEntity().to_be_destory_list[team_id]) do
-							if unit.team_id ~= u.team_id and (XY2Vector(i,j,team_id) - XY2Vector(unit.x,unit.y,team_id)):Length2D() < u:Script_GetAttackRange() + u:GetHullRadius() + unit:GetHullRadius() then
+							if unit.team_id ~= u.team_id and (XY2Vector(i,j,team_id) - XY2Vector(unit.x,unit.y,team_id)):Length2D() < u:Script_GetAttackRange() + u:GetHullRadius() + unit:GetHullRadius() and unit:HasModifier('modifier_winter_wyvern_cold_embrace') == false then
 								return XY2Vector(i,j,team_id)
 							end
 						end
@@ -18,7 +18,7 @@ function FindFarthestUnluckyDogAvailablePosition(u)
 				for i=1,8 do
 					if GameRules:GetGameModeEntity().unit[team_id][j..'_'..i] == nil then
 						for _,unit in pairs (GameRules:GetGameModeEntity().to_be_destory_list[team_id]) do
-							if unit.team_id ~= u.team_id and (XY2Vector(i,j,team_id) - XY2Vector(unit.x,unit.y,team_id)):Length2D() < u:Script_GetAttackRange() + u:GetHullRadius() + unit:GetHullRadius() then
+							if unit.team_id ~= u.team_id and (XY2Vector(i,j,team_id) - XY2Vector(unit.x,unit.y,team_id)):Length2D() < u:Script_GetAttackRange() + u:GetHullRadius() + unit:GetHullRadius() and unit:HasModifier('modifier_winter_wyvern_cold_embrace') == false then
 								return XY2Vector(i,j,team_id)
 							end
 						end
@@ -32,7 +32,7 @@ function FindFarthestUnluckyDogAvailablePosition(u)
 				for i=1,8 do
 					if GameRules:GetGameModeEntity().unit[team_id][j..'_'..i] == nil then
 						for _,unit in pairs (GameRules:GetGameModeEntity().to_be_destory_list[team_id]) do
-							if unit.team_id ~= u.team_id and (XY2Vector(i,j,team_id) - XY2Vector(unit.x,unit.y,team_id)):Length2D() < u:Script_GetAttackRange() + u:GetHullRadius() + unit:GetHullRadius() then
+							if unit.team_id ~= u.team_id and (XY2Vector(i,j,team_id) - XY2Vector(unit.x,unit.y,team_id)):Length2D() < u:Script_GetAttackRange() + u:GetHullRadius() + unit:GetHullRadius() and unit:HasModifier('modifier_winter_wyvern_cold_embrace') == false then
 								return XY2Vector(i,j,team_id)
 							end
 						end
@@ -44,7 +44,7 @@ function FindFarthestUnluckyDogAvailablePosition(u)
 				for i=8,1,-1 do
 					if GameRules:GetGameModeEntity().unit[team_id][j..'_'..i] == nil then
 						for _,unit in pairs (GameRules:GetGameModeEntity().to_be_destory_list[team_id]) do
-							if unit.team_id ~= u.team_id and (XY2Vector(i,j,team_id) - XY2Vector(unit.x,unit.y,team_id)):Length2D() < u:Script_GetAttackRange() + u:GetHullRadius() + unit:GetHullRadius() then
+							if unit.team_id ~= u.team_id and (XY2Vector(i,j,team_id) - XY2Vector(unit.x,unit.y,team_id)):Length2D() < u:Script_GetAttackRange() + u:GetHullRadius() + unit:GetHullRadius() and unit:HasModifier('modifier_winter_wyvern_cold_embrace') == false then
 								return XY2Vector(i,j,team_id)
 							end
 						end
