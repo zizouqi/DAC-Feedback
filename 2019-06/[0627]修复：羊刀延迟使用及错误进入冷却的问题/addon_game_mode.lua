@@ -10,21 +10,24 @@ function TriggerSheepStick(u)
 			if name == 'item_yangdao' and ability:IsCooldownReady() == true then
 				if u:FindAbilityByName("crab_voodoo") == nil then
 					AddAbilityAndSetLevel(u,'crab_voodoo')
-				else
-					local dog = FindHighLevelUnluckyDog(u)
-					if u:IsNull() ~= true and dog ~= nil and dog:IsNull() ~= true then
-						ability:StartCooldown(15)
-						local newOrder = {
-					 		UnitIndex = u:entindex(), 
-					 		OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
-					 		TargetIndex = dog:entindex(), 
-					 		AbilityIndex = u:FindAbilityByName("crab_voodoo"):entindex(), 
-					 		Position = nil, 
-					 		Queue = 0 
-					 	}
-						ExecuteOrderFromTable(newOrder)
-						RemoveAllKnightBuff(dog)
-					end
+				end
+				local dog = FindHighLevelUnluckyDog(u)
+				if u:IsNull() ~= true and dog ~= nil and dog:IsNull() ~= true then
+					local newOrder = {
+				 		UnitIndex = u:entindex(), 
+				 		OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
+				 		TargetIndex = dog:entindex(), 
+				 		AbilityIndex = u:FindAbilityByName("crab_voodoo"):entindex(), 
+				 		Position = nil, 
+				 		Queue = 0 
+				 	}
+					ExecuteOrderFromTable(newOrder)
+					Timers:CreateTimer(0.3,function()
+						if dog:HasModifier('modifier_shadow_shaman_voodoo') then
+							ability:StartCooldown(15)
+							RemoveAllKnightBuff(dog)
+						end
+					end)
 				end
 				return 1
 			end
