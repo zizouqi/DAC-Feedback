@@ -1,3 +1,4 @@
+var LEVEL_ONE_CHESS = '';
 function OnShowDrawCard(keys){
     if (!CheckClientKey(keys.key)) return;
     if (keys.unlock == true){
@@ -14,6 +15,7 @@ function OnShowDrawCard(keys){
         return;
     }
     var cards = keys.cards.split(',');
+    LEVEL_ONE_CHESS = keys.level_one_chess;
     MY_DRAW_CHESS_LIST = {};
     if (cards && cards.length>1){
         for (var i=0;i<cards.length;i++){
@@ -35,6 +37,9 @@ function set_draw_card_status(){
             }
             else{
                 $('#text_draw_card_price_'+i).style['color'] = '#ffffff';
+            }
+            if (LEVEL_ONE_CHESS.indexOf(MY_DRAW_CHESS_LIST[i].toString()) >= 0){
+                $('#text_draw_card_price_'+i).style['color'] = '#00ff00';
             }
         }
     }
