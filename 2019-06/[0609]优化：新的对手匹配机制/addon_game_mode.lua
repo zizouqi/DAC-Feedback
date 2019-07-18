@@ -59,6 +59,23 @@ function AllocateABattleRoundV3()
 				return
 			end
 		end
+
+		-- 不符合条件，重新排序匹配
+		if finished ~= true then
+			GameRules:GetGameModeEntity().alive_player_table = {}
+			for u,v in pairs(GameRules:GetGameModeEntity().counterpart) do
+				if TeamId2Hero(u) ~= nil and TeamId2Hero(u):IsNull() == false and TeamId2Hero(u):IsAlive() == true then
+					--活玩家
+					GameRules:GetGameModeEntity().counterpart[u] = u
+					alive_player_count = alive_player_count + 1
+					table.insert(GameRules:GetGameModeEntity().alive_player_table, RandomInt(1, 99) * 100 + u)
+				else
+					--死玩家
+					GameRules:GetGameModeEntity().counterpart[u] = -1
+				end
+			end
+			table.sort(GameRules:GetGameModeEntity().alive_player_table)
+		end
 	end
 
 	local round_info = ''
@@ -81,6 +98,7 @@ function AllocateABattleRoundV3()
 		round_info = round_info..v..'  '
 	end
 	prt('CURRENT ROUND: '..round_info)
+	prt('Trytime: '..trytime..'    Finished: '..finished)
 end
 function IsValueInTable(value, table)
 	for k,v in pairs(table) do
