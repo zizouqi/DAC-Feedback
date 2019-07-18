@@ -48,11 +48,23 @@ function AllocateABattleRoundV3()
 		finished = true
 		for i, v in pairs(GameRules:GetGameModeEntity().current_round) do
 			if alive_player_count >= 7 then
-				finished = not (IsValueInTable(v, GameRules:GetGameModeEntity().last_round) or IsValueInTable(v, GameRules:GetGameModeEntity().last_2nd_round) or IsValueInTable(v, GameRules:GetGameModeEntity().last_3rd_round))
+				-- finished = not (IsValueInTable(v, GameRules:GetGameModeEntity().last_round) or IsValueInTable(v, GameRules:GetGameModeEntity().last_2nd_round) or IsValueInTable(v, GameRules:GetGameModeEntity().last_3rd_round))
+				if IsValueInTable(v, GameRules:GetGameModeEntity().last_round) == true or IsValueInTable(v, GameRules:GetGameModeEntity().last_2nd_round) == true or IsValueInTable(v, GameRules:GetGameModeEntity().last_3rd_round) == true then
+					finished = false
+					prt('Conflict: '..v)
+				end
 			elseif alive_player_count >= 5 then 
-				finished = not (IsValueInTable(v, GameRules:GetGameModeEntity().last_round) or IsValueInTable(v, GameRules:GetGameModeEntity().last_2nd_round))
+				-- finished = not (IsValueInTable(v, GameRules:GetGameModeEntity().last_round) or IsValueInTable(v, GameRules:GetGameModeEntity().last_2nd_round))
+				if IsValueInTable(v, GameRules:GetGameModeEntity().last_round) == true or IsValueInTable(v, GameRules:GetGameModeEntity().last_2nd_round) == true then
+					finished = false
+					prt('Conflict: '..v)
+				end
 			elseif alive_player_count >= 3 then 
-				finished = not (IsValueInTable(v, GameRules:GetGameModeEntity().last_round))
+				-- finished = not (IsValueInTable(v, GameRules:GetGameModeEntity().last_round))
+				if IsValueInTable(v, GameRules:GetGameModeEntity().last_round) == true then
+					finished = false
+					prt('Conflict: '..v)
+				end
 			elseif alive_player_count >= 1 then 
 				finished = true
 			else
@@ -62,6 +74,7 @@ function AllocateABattleRoundV3()
 
 		-- 不符合条件，重新排序匹配
 		if finished ~= true then
+			alive_player_count = 0
 			GameRules:GetGameModeEntity().alive_player_table = {}
 			for u,v in pairs(GameRules:GetGameModeEntity().counterpart) do
 				if TeamId2Hero(u) ~= nil and TeamId2Hero(u):IsNull() == false and TeamId2Hero(u):IsAlive() == true then
@@ -98,7 +111,7 @@ function AllocateABattleRoundV3()
 		round_info = round_info..v..'  '
 	end
 	prt('CURRENT ROUND: '..round_info)
-	prt('Trytime: '..trytime..'    Finished: '..finished)
+	prt('Trytime: '..trytime..'    Alive Player Count: '..alive_player_count)
 end
 function IsValueInTable(value, table)
 	for k,v in pairs(table) do
