@@ -1,3 +1,11 @@
+-- 新增的全局变量
+GameRules:GetGameModeEntity().alive_player_table = {}
+GameRules:GetGameModeEntity().current_round = {}
+GameRules:GetGameModeEntity().last_round = {}
+GameRules:GetGameModeEntity().last_2nd_round = {}
+GameRules:GetGameModeEntity().last_3rd_round = {}
+
+
 function AllocateABattleRoundV3()
 	local finished = false
 	local trytime = 0
@@ -52,6 +60,27 @@ function AllocateABattleRoundV3()
 			end
 		end
 	end
+
+	local round_info = ''
+	for i, v in pairs(GameRules:GetGameModeEntity().last_3rd_round) do
+		round_info = round_info..v..'  '
+	end
+	prt('LAST 3RD ROUND: '..round_info)
+	local round_info = ''
+	for i, v in pairs(GameRules:GetGameModeEntity().last_2nd_round) do
+		round_info = round_info..v..'  '
+	end
+	prt('LAST 2ND ROUND: '..round_info)
+	local round_info = ''
+	for i, v in pairs(GameRules:GetGameModeEntity().last_round) do
+		round_info = round_info..v..'  '
+	end
+	prt('LAST ROUND: '..round_info)
+	round_info = ''
+	for i, v in pairs(GameRules:GetGameModeEntity().current_round) do
+		round_info = round_info..v..'  '
+	end
+	prt('CURRENT ROUND: '..round_info)
 end
 function IsValueInTable(value, table)
 	for k,v in pairs(table) do
@@ -63,17 +92,14 @@ function IsValueInTable(value, table)
 end
 
 
--- 新增的全局变量
-GameRules:GetGameModeEntity().alive_player_table = {}
-GameRules:GetGameModeEntity().current_round = {}
-GameRules:GetGameModeEntity().last_round = {}
-GameRules:GetGameModeEntity().last_2nd_round = {}
-GameRules:GetGameModeEntity().last_3rd_round = {}
-
-
--- function StartAPVPRound() 中 AllocateABattleRound() 修改为 AllocateABattleRoundV3()
+-- function StartAPrepareRound() 中 AllocateABattleRound() 修改为 AllocateABattleRoundV3()
 function StartAPVPRound()
 	--（略）
-	AllocateABattleRoundV3()
+	--分配对手
+	if GameRules:GetGameModeEntity().p2_mode == true then
+		AllocateP2Counterpart()
+	else
+		AllocateABattleRoundV3()
+	end
 	--（略）
 end
