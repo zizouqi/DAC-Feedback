@@ -5,6 +5,7 @@ function ChessAI(u)
 		--屠夫的连招
 		local unluckydog = FindUnluckyDogFarthest(u)
 		if unluckydog ~= nil then
+			unluckydog.stop_moving = true  -- 暂时让目标不要移动，避免BUG
 			u.hook_unluckydog = unluckydog
 			local newOrder = {
 		 		UnitIndex = u:entindex(), 
@@ -24,7 +25,7 @@ function ChessAI(u)
 					ChangeUnitPosition(uuu.hook_unluckydog, new_position, true)
 
 					play_particle("particles/econ/items/pudge/pudge_ti6_immortal/pudge_meathook_witness_impact_ti6.vpcf",PATTACH_ABSORIGIN_FOLLOW,uuu.hook_unluckydog,3)
-
+					unluckydog.stop_moving = nil
 					if ((new_position - uuu:GetAbsOrigin()):Length2D() < 200) then
 						--肢解
 						uuu:SwapAbilities('pudge_meat_hook_lua','pudge_dismember', false, true)
@@ -60,14 +61,16 @@ function ChessAI(u)
 						uuu.is_comboing = nil
 					end
 				end
+				unluckydog.stop_moving = nil
 			end)
-			return 1 + ai_delay
+			-- 将钩子来回的总时间加上随机量，做为进行下一次行动前的延迟。避免屠夫提前移动导致连招失败。
+			return (u:GetAbsOrigin() - unluckydog:GetAbsOrigin()):Length2D() / 800 + RandomFloat(0.5,1) + ai_delay
 		end
 
 	--（略）
 
 	--不攻击就走动
-	if u.attack_target == nil then
+	if u.attack_target == nil and u.stop_moving ~= true then
 
 	--（略）
 end
