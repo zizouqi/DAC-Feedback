@@ -5,6 +5,9 @@ function GetChessAbilityCD(u)
 	end
 	local ability_name = GameRules:GetGameModeEntity().chess_ability_list[u:GetUnitName()]
 	local ability = u:FindAbilityByName(ability_name)
+	if GetChessTypeName(u) == 'chess_rubick' and u.steal_ability ~= nil then
+		ability = u:FindAbilityByName(u.steal_ability)
+	end
 	local cd = math.floor(ability:GetCooldownTimeRemaining())
 	return cd
 end
@@ -18,6 +21,9 @@ function ReduceChessAbilityCD(u,sec)
 	end
 	local ability_name = GameRules:GetGameModeEntity().chess_ability_list[u:GetUnitName()]
 	local ability = u:FindAbilityByName(ability_name)
+	if GetChessTypeName(u) == 'chess_rubick' and u.steal_ability ~= nil then
+		ability = u:FindAbilityByName(u.steal_ability)
+	end
 	local cd = ability:GetCooldownTimeRemaining()
 	local cd_new = cd - sec
 	if cd_new < 0 then
